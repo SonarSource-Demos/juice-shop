@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build and analyze
+    name: Build and analyze with SonarQube
     runs-on: ubuntu-latest
     
     steps:
@@ -24,12 +24,15 @@ jobs:
       - name: "Install dependencies"
         run: npm ci #Only work with a lockfile
       - name: "Run tests and generate lcov report"
-        run: npm test -- --coverage              
+        run: npm test -- --coverage     
+      - name: "Run tests and generate lcov report for API"
+        run: npm run frisby
       - name: "Copy unit test coverage data"
         run: |
           mkdir -p coverage
           cp build/reports/coverage/frontend-tests/lcov.info ./coverage/frontend-lcov.info
-          cp build/reports/coverage/server-tests/lcov.info ./coverage/server-lcov.info      
+          cp build/reports/coverage/server-tests/lcov.info ./coverage/server-lcov.info
+          cp build/reports/coverage/api-tests/lcov.info ./coverage/api-lcov.info
       - name: "SonarQube Scan"
         uses: SonarSource/sonarqube-scan-action@v5
         env:
