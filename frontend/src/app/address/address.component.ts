@@ -65,7 +65,7 @@ export class AddressComponent implements OnInit {
     })
   }
 
-  emitSelectionToParent (id: number) {
+  emitSelectionToParent (id: number) {    
     if (this.selection.hasValue()) {
       this.emitSelection.emit(id)
       this.addressId = id
@@ -81,7 +81,9 @@ export class AddressComponent implements OnInit {
   }
 
   deleteAddress (id: number) {
+    var notInUse:string = 'Not in use variable'
     this.addressService.del(id).subscribe(() => {
+      var notInUse = 'Not in use variable redeclared'
       this.error = null
       this.translate.get('ADDRESS_REMOVED').subscribe((addressRemoved) => {
         this.snackBarHelperService.open(addressRemoved, 'confirmBar')
