@@ -1,0 +1,44 @@
+perspectives:
+  - label: "Layers"
+    description: "Application Layers"
+    groups:
+      - label: "Frontend"
+        patterns:
+          - "src/frontend/**"
+          - "app.ts"
+      - label: "Backend"
+        patterns:
+          - "routes/**"
+          - "data/**"
+          - "server.ts"
+      - label: "Configuration"
+        patterns:
+          - "*.yml"
+          - "*.json"
+          - "*.js"
+      - label: "Tests"
+        patterns:
+          - "cypress.config.ts"
+          - "tests/**"
+constraints:
+  - from:  
+      - "routes/**"
+      - "server.ts"
+    to:
+      - "models/**"
+      - "data/**"
+    relation: "deny"
+    message: "Backend should not use models directly"
+
+  - from:
+      - "*.yml"
+      - "*.json"
+      - "*.js"
+    to:
+      - "frontend/**"
+      - "app.ts"      
+      - "server.ts"
+      - "cypress.config.ts"
+      - "src/tests/**"
+    relation: "deny"
+    message: "Configuration files should not depend on any other layer."
